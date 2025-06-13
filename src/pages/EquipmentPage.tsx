@@ -15,19 +15,51 @@ export default function EquipmentPage() {
   const { data: equipmentData } = useEquipmentData();
 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">Gestion des Équipements</h1>
+    <div className="container mx-auto p-3 sm:p-6 max-w-7xl">
+      <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 text-gray-900">
+        Gestion des Équipements
+      </h1>
       
-      <Tabs defaultValue="equipment" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-5">
-          <TabsTrigger value="equipment">Équipements</TabsTrigger>
-          <TabsTrigger value="problems">Problèmes</TabsTrigger>
-          <TabsTrigger value="incidents">Incidents</TabsTrigger>
-          <TabsTrigger value="availability">Disponibilité</TabsTrigger>
-          <TabsTrigger value="maintenance">Travaux</TabsTrigger>
-        </TabsList>
+      <Tabs defaultValue="equipment" className="space-y-4 sm:space-y-6">
+        <div className="w-full overflow-x-auto">
+          <TabsList className="grid w-full grid-cols-5 min-w-[500px] sm:min-w-full h-auto p-1">
+            <TabsTrigger 
+              value="equipment" 
+              className="text-xs sm:text-sm px-2 py-2 sm:px-4 data-[state=active]:bg-white"
+            >
+              <span className="hidden sm:inline">Équipements</span>
+              <span className="sm:hidden">Équip.</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="problems" 
+              className="text-xs sm:text-sm px-2 py-2 sm:px-4 data-[state=active]:bg-white"
+            >
+              <span className="hidden sm:inline">Problèmes</span>
+              <span className="sm:hidden">Prob.</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="incidents" 
+              className="text-xs sm:text-sm px-2 py-2 sm:px-4 data-[state=active]:bg-white"
+            >
+              Incidents
+            </TabsTrigger>
+            <TabsTrigger 
+              value="availability" 
+              className="text-xs sm:text-sm px-2 py-2 sm:px-4 data-[state=active]:bg-white"
+            >
+              <span className="hidden sm:inline">Disponibilité</span>
+              <span className="sm:hidden">Dispo.</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="maintenance" 
+              className="text-xs sm:text-sm px-2 py-2 sm:px-4 data-[state=active]:bg-white"
+            >
+              Travaux
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
-        <TabsContent value="equipment">
+        <TabsContent value="equipment" className="mt-4 sm:mt-6">
           <ModulePage
             title=""
             data={equipmentData || []}
@@ -45,19 +77,19 @@ export default function EquipmentPage() {
           />
         </TabsContent>
 
-        <TabsContent value="problems">
+        <TabsContent value="problems" className="mt-4 sm:mt-6">
           <EquipmentProblemsForm />
         </TabsContent>
 
-        <TabsContent value="incidents">
+        <TabsContent value="incidents" className="mt-4 sm:mt-6">
           <EquipmentIncidentsForm />
         </TabsContent>
 
-        <TabsContent value="availability">
+        <TabsContent value="availability" className="mt-4 sm:mt-6">
           <EquipmentAvailabilityManager />
         </TabsContent>
 
-        <TabsContent value="maintenance">
+        <TabsContent value="maintenance" className="mt-4 sm:mt-6">
           <EquipmentMaintenanceForm />
         </TabsContent>
       </Tabs>
