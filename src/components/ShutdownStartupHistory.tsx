@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -31,9 +30,9 @@ export function ShutdownStartupHistory() {
 
     if (fromDate && eventDate < fromDate) return false;
     if (toDate && eventDate > toDate) return false;
-    if (filters.unit && event.unit_name !== filters.unit) return false;
-    if (filters.eventType && event.event_type !== filters.eventType) return false;
-    if (filters.status && event.status !== filters.status) return false;
+    if (filters.unit && filters.unit !== 'all' && event.unit_name !== filters.unit) return false;
+    if (filters.eventType && filters.eventType !== 'all' && event.event_type !== filters.eventType) return false;
+    if (filters.status && filters.status !== 'all' && event.status !== filters.status) return false;
 
     return true;
   }) || [];
@@ -96,7 +95,7 @@ export function ShutdownStartupHistory() {
                   <SelectValue placeholder="Toutes" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Toutes</SelectItem>
+                  <SelectItem value="all">Toutes</SelectItem>
                   <SelectItem value="distillation">Distillation</SelectItem>
                   <SelectItem value="reforming">Reforming</SelectItem>
                   <SelectItem value="hydrotraitement">Hydrotraitement</SelectItem>
@@ -111,7 +110,7 @@ export function ShutdownStartupHistory() {
                   <SelectValue placeholder="Tous" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Tous</SelectItem>
+                  <SelectItem value="all">Tous</SelectItem>
                   <SelectItem value="shutdown">Arrêt</SelectItem>
                   <SelectItem value="startup">Démarrage</SelectItem>
                   <SelectItem value="planned_shutdown">Arrêt planifié</SelectItem>
