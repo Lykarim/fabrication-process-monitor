@@ -4,7 +4,6 @@ import { ModulePage } from "@/components/common/ModulePage";
 import { WaterTreatmentTable } from "@/components/tables/WaterTreatmentTable";
 import { WaterTreatmentModal } from "@/components/modals/WaterTreatmentModal";
 import { useWaterTreatmentData } from "@/hooks/useWaterTreatmentData";
-import { waterTreatmentCharts } from "@/config/chartConfigs";
 
 export default function WaterTreatmentPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -14,7 +13,7 @@ export default function WaterTreatmentPage() {
     <ModulePage
       title="Traitement des Eaux"
       data={waterData || []}
-      charts={waterTreatmentCharts}
+      charts={[]}
       tableComponent={<WaterTreatmentTable />}
       modalComponent={
         <WaterTreatmentModal

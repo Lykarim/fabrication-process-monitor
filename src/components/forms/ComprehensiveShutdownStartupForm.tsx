@@ -145,13 +145,17 @@ export function ComprehensiveShutdownStartupForm({ data, onSuccess, onCancel }: 
     const unitName = formData.unit === 'custom' ? formData.customUnit : formData.unit;
     const startTime = new Date(`${formData.date}T${formData.time}`).toISOString();
     
+    const eventTypeValue = eventType === 'shutdown' 
+      ? (formData.shutdownType === 'planned' ? 'planned_shutdown' : 'shutdown')
+      : 'startup';
+    
     const submitData = {
       unit_name: unitName,
-      event_type: eventType === 'shutdown' ? (formData.shutdownType === 'planned' ? 'planned_shutdown' : 'shutdown') as const : 'startup' as const,
+      event_type: eventTypeValue,
       reason: eventType === 'shutdown' ? formData.causes : observations.map(obs => `${obs.point}: ${obs.description}`).join('\n'),
       start_time: startTime,
-      status: 'planned' as const,
-      impact_level: 'medium' as const
+      status: 'planned',
+      impact_level: 'medium'
     };
 
     try {

@@ -4,7 +4,6 @@ import { ModulePage } from "@/components/common/ModulePage";
 import { EquipmentTable } from "@/components/tables/EquipmentTable";
 import { EquipmentModal } from "@/components/modals/EquipmentModal";
 import { useEquipmentData } from "@/hooks/useEquipmentData";
-import { equipmentCharts } from "@/config/chartConfigs";
 
 export default function EquipmentPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -14,7 +13,7 @@ export default function EquipmentPage() {
     <ModulePage
       title="Gestion des Équipements"
       data={equipmentData || []}
-      charts={equipmentCharts}
+      charts={[]}
       tableComponent={<EquipmentTable />}
       modalComponent={
         <EquipmentModal
