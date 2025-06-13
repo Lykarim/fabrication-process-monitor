@@ -325,7 +325,7 @@ function StatisticsView({ data }: { data: any[] }) {
             {Object.entries(eventsByUnit).map(([unit, count]) => (
               <div key={unit} className="flex justify-between items-center">
                 <span className="capitalize">{unit.replace('_', ' ')}</span>
-                <Badge variant="outline">{count}</Badge>
+                <Badge variant="outline">{String(count)}</Badge>
               </div>
             ))}
           </div>
