@@ -142,7 +142,7 @@ export function EnhancedShutdownStartupForm({ data, onSuccess, onCancel }: Enhan
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <Car>
+          <CardTitle>
             <h2 className="text-xl font-bold">
               {formData.event_type === 'shutdown' ? 'Gestion des Arrêts' : 'Gestion des Démarrages'}
             </h2>
