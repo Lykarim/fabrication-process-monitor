@@ -22,37 +22,37 @@ export default function EquipmentPage() {
       
       <Tabs defaultValue="equipment" className="space-y-4 sm:space-y-6">
         <div className="w-full overflow-x-auto">
-          <TabsList className="grid w-full grid-cols-5 min-w-[500px] sm:min-w-full h-auto p-1">
+          <TabsList className="grid w-full grid-cols-5 min-w-[600px] sm:min-w-full h-auto p-1">
             <TabsTrigger 
               value="equipment" 
-              className="text-xs sm:text-sm px-2 py-2 sm:px-4 data-[state=active]:bg-white"
+              className="text-xs sm:text-sm px-1 sm:px-3 py-2 whitespace-nowrap data-[state=active]:bg-white"
             >
               <span className="hidden sm:inline">Équipements</span>
               <span className="sm:hidden">Équip.</span>
             </TabsTrigger>
             <TabsTrigger 
               value="problems" 
-              className="text-xs sm:text-sm px-2 py-2 sm:px-4 data-[state=active]:bg-white"
+              className="text-xs sm:text-sm px-1 sm:px-3 py-2 whitespace-nowrap data-[state=active]:bg-white"
             >
               <span className="hidden sm:inline">Problèmes</span>
               <span className="sm:hidden">Prob.</span>
             </TabsTrigger>
             <TabsTrigger 
               value="incidents" 
-              className="text-xs sm:text-sm px-2 py-2 sm:px-4 data-[state=active]:bg-white"
+              className="text-xs sm:text-sm px-1 sm:px-3 py-2 whitespace-nowrap data-[state=active]:bg-white"
             >
               Incidents
             </TabsTrigger>
             <TabsTrigger 
               value="availability" 
-              className="text-xs sm:text-sm px-2 py-2 sm:px-4 data-[state=active]:bg-white"
+              className="text-xs sm:text-sm px-1 sm:px-3 py-2 whitespace-nowrap data-[state=active]:bg-white"
             >
               <span className="hidden sm:inline">Disponibilité</span>
               <span className="sm:hidden">Dispo.</span>
             </TabsTrigger>
             <TabsTrigger 
               value="maintenance" 
-              className="text-xs sm:text-sm px-2 py-2 sm:px-4 data-[state=active]:bg-white"
+              className="text-xs sm:text-sm px-1 sm:px-3 py-2 whitespace-nowrap data-[state=active]:bg-white"
             >
               Travaux
             </TabsTrigger>
