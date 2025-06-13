@@ -10,17 +10,11 @@ export default function EquipmentPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { data: equipmentData } = useEquipmentData();
 
-  // Add data property to charts configuration
-  const chartsWithData = equipmentCharts.map(chart => ({
-    ...chart,
-    data: equipmentData || []
-  }));
-
   return (
     <ModulePage
       title="Gestion des Équipements"
       data={equipmentData || []}
-      charts={chartsWithData}
+      charts={equipmentCharts}
       tableComponent={<EquipmentTable />}
       modalComponent={
         <EquipmentModal
