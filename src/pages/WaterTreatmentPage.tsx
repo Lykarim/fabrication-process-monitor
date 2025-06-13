@@ -10,11 +10,17 @@ export default function WaterTreatmentPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { data: waterData } = useWaterTreatmentData();
 
+  // Add data property to charts configuration
+  const chartsWithData = waterTreatmentCharts.map(chart => ({
+    ...chart,
+    data: waterData || []
+  }));
+
   return (
     <ModulePage
       title="Traitement des Eaux"
       data={waterData || []}
-      charts={waterTreatmentCharts}
+      charts={chartsWithData}
       tableComponent={<WaterTreatmentTable />}
       modalComponent={
         <WaterTreatmentModal

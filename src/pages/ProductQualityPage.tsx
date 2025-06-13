@@ -10,11 +10,17 @@ export default function ProductQualityPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { data: qualityData } = useProductQualityData();
 
+  // Add data property to charts configuration
+  const chartsWithData = productQualityCharts.map(chart => ({
+    ...chart,
+    data: qualityData || []
+  }));
+
   return (
     <ModulePage
       title="Qualité des Produits"
       data={qualityData || []}
-      charts={productQualityCharts}
+      charts={chartsWithData}
       tableComponent={<ProductQualityTable />}
       modalComponent={
         <ProductQualityModal

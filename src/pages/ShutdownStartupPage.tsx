@@ -27,7 +27,8 @@ export default function ShutdownStartupPage() {
       yAxisKey: "duration_hours",
       groupByKey: "unit_name",
       chartType: "bar" as const,
-      colorScheme: ["#dc2626", "#f59e0b", "#10b981", "#3b82f6"]
+      colorScheme: ["#dc2626", "#f59e0b", "#10b981", "#3b82f6"],
+      data: durationData
     }
   ] : [];
 

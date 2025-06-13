@@ -15,9 +15,9 @@ export function ShutdownStartupHistory() {
   const [filters, setFilters] = useState({
     dateFrom: '',
     dateTo: '',
-    unit: '',
-    eventType: '',
-    status: ''
+    unit: 'all',
+    eventType: 'all',
+    status: 'all'
   });
 
   if (isLoading) {
@@ -31,9 +31,9 @@ export function ShutdownStartupHistory() {
 
     if (fromDate && eventDate < fromDate) return false;
     if (toDate && eventDate > toDate) return false;
-    if (filters.unit && event.unit_name !== filters.unit) return false;
-    if (filters.eventType && event.event_type !== filters.eventType) return false;
-    if (filters.status && event.status !== filters.status) return false;
+    if (filters.unit !== 'all' && event.unit_name !== filters.unit) return false;
+    if (filters.eventType !== 'all' && event.event_type !== filters.eventType) return false;
+    if (filters.status !== 'all' && event.status !== filters.status) return false;
 
     return true;
   }) || [];
@@ -48,7 +48,7 @@ export function ShutdownStartupHistory() {
         event.status,
         event.duration_hours ? `${event.duration_hours}h` : '-',
         event.operator_name || '-',
-        // Parsing des données JSON stockées
+        // Safely handle potentially missing properties
         event.phases ? JSON.parse(event.phases).filter((p: any) => p.status === 'completed').length : 0,
         event.anomalies ? JSON.parse(event.anomalies).length : 0
       ])
@@ -96,7 +96,7 @@ export function ShutdownStartupHistory() {
                   <SelectValue placeholder="Toutes" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Toutes</SelectItem>
+                  <SelectItem value="all">Toutes</SelectItem>
                   <SelectItem value="distillation">Distillation</SelectItem>
                   <SelectItem value="reforming">Reforming</SelectItem>
                   <SelectItem value="hydrotraitement">Hydrotraitement</SelectItem>
@@ -111,7 +111,7 @@ export function ShutdownStartupHistory() {
                   <SelectValue placeholder="Tous" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Tous</SelectItem>
+                  <SelectItem value="all">Tous</SelectItem>
                   <SelectItem value="shutdown">Arrêt</SelectItem>
                   <SelectItem value="startup">Démarrage</SelectItem>
                   <SelectItem value="planned_shutdown">Arrêt planifié</SelectItem>
@@ -157,6 +157,7 @@ export function ShutdownStartupHistory() {
 }
 
 function EventTimelineCard({ event }: { event: any }) {
+  // Safely handle potentially missing properties
   const phases = event.phases ? JSON.parse(event.phases) : [];
   const anomalies = event.anomalies ? JSON.parse(event.anomalies) : [];
   const supervisorValidation = event.supervisor_validation ? JSON.parse(event.supervisor_validation) : null;
@@ -216,6 +217,7 @@ function EventTimelineCard({ event }: { event: any }) {
 }
 
 function DetailedEventCard({ event }: { event: any }) {
+  // Safely handle potentially missing properties
   const phases = event.phases ? JSON.parse(event.phases) : [];
   const anomalies = event.anomalies ? JSON.parse(event.anomalies) : [];
 
@@ -231,31 +233,33 @@ function DetailedEventCard({ event }: { event: any }) {
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Phases */}
-        <div>
-          <h4 className="font-semibold mb-2">Phases réalisées</h4>
-          <div className="space-y-2">
-            {phases.map((phase: any, index: number) => (
-              <div key={phase.id} className="flex items-center justify-between p-2 bg-gray-50 rounded">
-                <span>{phase.name}</span>
-                <div className="flex items-center gap-2">
-                  {phase.startTime && (
-                    <span className="text-xs text-gray-500">
-                      {new Date(phase.startTime).toLocaleTimeString('fr-FR')}
-                    </span>
-                  )}
-                  {phase.duration && (
-                    <span className="text-xs text-gray-500">
-                      ({phase.duration}min)
-                    </span>
-                  )}
-                  <Badge variant={phase.status === 'completed' ? 'default' : 'outline'}>
-                    {phase.status === 'completed' ? 'Terminé' : 'En cours'}
-                  </Badge>
+        {phases.length > 0 && (
+          <div>
+            <h4 className="font-semibold mb-2">Phases réalisées</h4>
+            <div className="space-y-2">
+              {phases.map((phase: any, index: number) => (
+                <div key={phase.id} className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                  <span>{phase.name}</span>
+                  <div className="flex items-center gap-2">
+                    {phase.startTime && (
+                      <span className="text-xs text-gray-500">
+                        {new Date(phase.startTime).toLocaleTimeString('fr-FR')}
+                      </span>
+                    )}
+                    {phase.duration && (
+                      <span className="text-xs text-gray-500">
+                        ({phase.duration}min)
+                      </span>
+                    )}
+                    <Badge variant={phase.status === 'completed' ? 'default' : 'outline'}>
+                      {phase.status === 'completed' ? 'Terminé' : 'En cours'}
+                    </Badge>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Anomalies */}
         {anomalies.length > 0 && (
@@ -289,7 +293,7 @@ function DetailedEventCard({ event }: { event: any }) {
 function StatisticsView({ data }: { data: any[] }) {
   const totalEvents = data.length;
   const completedEvents = data.filter(e => e.status === 'completed').length;
-  const averageDuration = data.reduce((sum, e) => sum + (e.duration_hours || 0), 0) / totalEvents;
+  const averageDuration = data.length > 0 ? data.reduce((sum, e) => sum + (e.duration_hours || 0), 0) / totalEvents : 0;
   
   const eventsByUnit = data.reduce((acc, event) => {
     acc[event.unit_name] = (acc[event.unit_name] || 0) + 1;
@@ -340,7 +344,7 @@ function StatisticsView({ data }: { data: any[] }) {
             {Object.entries(eventsByUnit).map(([unit, count]) => (
               <div key={unit} className="flex justify-between items-center">
                 <span className="capitalize">{unit.replace('_', ' ')}</span>
-                <Badge variant="outline">{count}</Badge>
+                <Badge variant="outline">{String(count)}</Badge>
               </div>
             ))}
           </div>
